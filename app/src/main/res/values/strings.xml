@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TwitterLogin</string>
+    <string name="fragment_login_title">Login</string>
+    <string name="fragment_register_title">Register</string>
+</resources>
