@@ -52,15 +52,17 @@ public abstract class BaseFragment extends Fragment {
 
     @LayoutRes
     private int getLayout() {
+        int layout = -1;
         if (getClass().getAnnotations().length > 0) {
             for (Annotation annotation : getClass().getAnnotations()) {
                 if (annotation instanceof FragmentView) {
                     FragmentView fragmentView = (FragmentView) annotation;
-                    return fragmentView.layout();
+                    layout = fragmentView.layout();
                 }
             }
-        } else throw new Resources.NotFoundException("Layout recourse not found");
-        return -1;
+        }
+        if (layout == -1) throw new Resources.NotFoundException("Layout recourse not found");
+        return layout;
     }
 
 

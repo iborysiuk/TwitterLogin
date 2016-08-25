@@ -7,7 +7,7 @@ import com.twitterlogin.android.annotations.FragmentView;
 import com.twitterlogin.android.annotations.ToolbarConfig;
 import com.twitterlogin.android.ui.base.BaseFragment;
 
-import static com.twitterlogin.android.annotations.ToolbarConfig.Theme.*;
+import static com.twitterlogin.android.annotations.ToolbarConfig.Theme.SECONDARY;
 
 /**
  * Created by Yuriy Borysiuk on 8/24/2016.
