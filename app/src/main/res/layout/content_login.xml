@@ -6,11 +6,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/fragment_login_title" />
+        android:text="@string/title_login" />
 
     <Button
         android:id="@+id/register.btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/fragment_register_title" />
+        android:text="@string/title_register" />
 </merge>

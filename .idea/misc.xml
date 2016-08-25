@@ -2,11 +2,6 @@
 <project version="4">
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
-    <list size="3">
-      <item index="0" class="java.lang.String" itemvalue="butterknife.BindView" />
-      <item index="1" class="java.lang.String" itemvalue="butterknife.OnClick" />
-      <item index="2" class="java.lang.String" itemvalue="com.twitterlogin.android.annotations.FragmentView" />
-    </list>
   </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="android.support.annotation.Nullable" />

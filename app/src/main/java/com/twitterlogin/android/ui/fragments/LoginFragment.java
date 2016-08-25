@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.twitterlogin.android.annotations.FragmentView;
 import com.twitterlogin.android.R;
+import com.twitterlogin.android.annotations.ToolbarConfig;
 import com.twitterlogin.android.ui.base.BaseFragment;
 import com.twitterlogin.android.util.Navigator;
 
@@ -13,6 +14,7 @@ import butterknife.OnClick;
  * Created by Yuriy Borysiuk on 8/24/2016.
  */
 @FragmentView(layout = R.layout.fragment_login)
+@ToolbarConfig(title = R.string.title_login)
 public class LoginFragment extends BaseFragment {
 
     public LoginFragment() {
@@ -30,4 +32,5 @@ public class LoginFragment extends BaseFragment {
     public void actionRegister() {
         Navigator.get().nextFragment(RegisterFragment.newInstance());
     }
+
 }

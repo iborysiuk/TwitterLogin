@@ -4,9 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/fragment_register_title"/>
+    <include layout="@layout/layout_toolbar" />
+
+    <include layout="@layout/content_register" />
 
 </LinearLayout>

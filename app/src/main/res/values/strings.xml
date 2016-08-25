@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">TwitterLogin</string>
-    <string name="fragment_login_title">Login</string>
-    <string name="fragment_register_title">Register</string>
+
+    <!--Toolbar title-->
+    <string name="title_login">Login</string>
+    <string name="title_register">Register</string>
+    <string name="empty_title" />
+
 </resources>
