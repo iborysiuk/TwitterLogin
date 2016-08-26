@@ -1,13 +1,8 @@
 package com.twitterlogin.android;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import com.linkedin.platform.LISessionManager;
-import com.linkedin.platform.errors.LIAuthError;
-import com.linkedin.platform.listeners.AuthListener;
-import com.linkedin.platform.utils.Scope;
 import com.twitterlogin.android.annotations.WebSetting;
 
 import static com.twitterlogin.android.WebDialog.WebDialogCallback;
@@ -39,19 +34,19 @@ public final class LinkedInPresenter {
         mWebDialog.show();
     }
 
-    private void appAuthorization() {
-        LISessionManager.getInstance(mContext).init((Activity) mContext, Scope.build(Scope.R_BASICPROFILE),
-                new AuthListener() {
-                    @Override
-                    public void onAuthSuccess() {
-                   //     getUserProfile();
-                    }
-
-                    @Override
-                    public void onAuthError(LIAuthError error) {
-                  //      LOGE(this, error.toString(), null);
-                    }
-                }, true);
-    }
+//    private void appAuthorization() {
+//        LISessionManager.getInstance(mContext).init((Activity) mContext, Scope.build(Scope.R_BASICPROFILE),
+//                new AuthListener() {
+//                    @Override
+//                    public void onAuthSuccess() {
+//                   //     getUserProfile();
+//                    }
+//
+//                    @Override
+//                    public void onAuthError(LIAuthError error) {
+//                  //      LOGE(this, error.toString(), null);
+//                    }
+//                }, true);
+//    }
 
 }
