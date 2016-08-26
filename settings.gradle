@@ -1,1 +1,2 @@
-include ':app'
+include ':app', ':linkedin-sdk'
+project(':linkedin-sdk').projectDir = new File('app/libs/linkedin-sdk')

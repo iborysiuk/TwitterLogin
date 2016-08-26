@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.twitterlogin.android"
         minSdkVersion 18
@@ -11,11 +12,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-//        jackOptions {
-//            enabled false
-//        }
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -23,11 +21,10 @@ android {
         }
     }
 //
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_8
-//        targetCompatibility JavaVersion.VERSION_1_8
-//    }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -45,4 +42,7 @@ dependencies {
     //Butter knife
     compile 'com.jakewharton:butterknife:8.3.0'
     apt 'com.jakewharton:butterknife-compiler:8.3.0'
+
+    //LinkedInSDK
+    compile project(path: ':linkedin-sdk')
 }

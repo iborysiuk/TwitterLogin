@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -14,14 +15,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 
 import com.twitterlogin.android.R;
 import com.twitterlogin.android.annotations.FragmentView;
 import com.twitterlogin.android.annotations.ToolbarConfig;
+import com.twitterlogin.android.util.Navigator;
 
 import java.lang.annotation.Annotation;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -32,13 +34,11 @@ public abstract class BaseFragment extends Fragment {
     public static final int TOOLBAR_MAIN = 0;
     public static final int TOOLBAR_SECONDARY = 1;
     public int DEFAULT_TOOLBAR = TOOLBAR_MAIN;
-    @Nullable
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getLayout(), container, false);
         if (view != null) ButterKnife.bind(this, view);
         return view;
@@ -47,12 +47,12 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initToolbar();
+        initToolbar(view);
     }
 
     @LayoutRes
     private int getLayout() {
-        int layout = -1;
+        int layout = View.NO_ID;
         if (getClass().getAnnotations().length > 0) {
             for (Annotation annotation : getClass().getAnnotations()) {
                 if (annotation instanceof FragmentView) {
@@ -61,14 +61,16 @@ public abstract class BaseFragment extends Fragment {
                 }
             }
         }
-        if (layout == -1) throw new Resources.NotFoundException("Layout recourse not found");
+        if (layout == View.NO_ID)
+            throw new Resources.NotFoundException("Layout recourse not found");
         return layout;
     }
 
 
-    private void initToolbar() {
-        if (mToolbar == null) return;
-        setupToolbarConfig(mToolbar);
+    private void initToolbar(@NonNull View view) {
+        Toolbar toolbar = ButterKnife.findById(view, R.id.toolbar);
+        if (toolbar == null) return;
+        setupToolbarConfig(toolbar);
     }
 
     private void setupToolbarConfig(final Toolbar toolbar) {
@@ -79,14 +81,9 @@ public abstract class BaseFragment extends Fragment {
                     DEFAULT_TOOLBAR = config.theme().getThemeCode();
                     toolbar.setTitle(config.title());
                     toolbar.setTitleTextColor(getThemeColor());
-                    toolbar.setNavigationIcon(getNavigationIcon(config.backArrow()));
-                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (config.backArrow()) {
-                                ((Activity) getContext()).onBackPressed();
-                            }
-                        }
+                    toolbar.setNavigationIcon(getNavigationIcon(config.hasArrow()));
+                    toolbar.setNavigationOnClickListener(v -> {
+                        if (config.hasArrow()) ((Activity) getContext()).onBackPressed();
                     });
                     return;
                 }
@@ -109,4 +106,13 @@ public abstract class BaseFragment extends Fragment {
     private int getThemeColor() {
         return isThemeChanged() ? Color.BLACK : Color.WHITE;
     }
+
+    @Override
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        final Animation animation = Navigator.get().getFragmentAnimation(getContext(), enter);
+        if (animation == null) return super.onCreateAnimation(transit, enter, nextAnim);
+        return animation;
+    }
+
+
 }

@@ -30,7 +30,7 @@ public class LoginFragment extends BaseFragment {
 
     @OnClick(R.id.register_btn)
     public void actionRegister() {
-        Navigator.get().nextFragment(RegisterFragment.newInstance());
+        Navigator.get().nextFragment(RegisterFragment.newInstance(), true);
     }
 
 }

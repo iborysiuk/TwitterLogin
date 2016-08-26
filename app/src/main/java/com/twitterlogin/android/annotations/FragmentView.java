@@ -1,17 +1,21 @@
 package com.twitterlogin.android.annotations;
 
-import java.lang.annotation.ElementType;
+import android.support.annotation.LayoutRes;
+import android.view.View;
+
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Created by Yuriy Borysiuk on 8/24/2016.
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Retention(RUNTIME)
+@Target(TYPE)
 public @interface FragmentView {
 
-    int layout() default 0;
+    @LayoutRes int layout() default View.NO_ID;
 
 }

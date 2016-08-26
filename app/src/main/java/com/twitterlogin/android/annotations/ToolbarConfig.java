@@ -1,6 +1,6 @@
 package com.twitterlogin.android.annotations;
 
-import com.twitterlogin.android.R;
+import android.view.View;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -14,9 +14,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface ToolbarConfig {
 
-    int title() default R.string.empty_title;
+    int title() default View.NO_ID;
 
-    boolean backArrow() default false;
+    boolean hasArrow() default false;
 
     Theme theme() default Theme.MAIN;
 

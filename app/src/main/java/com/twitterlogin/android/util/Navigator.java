@@ -1,10 +1,14 @@
 package com.twitterlogin.android.util;
 
+import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+
+import com.twitterlogin.android.R;
 
 /**
  * Created by Yuriy Borysiuk on 8/24/2016.
@@ -13,6 +17,8 @@ import android.support.v4.app.FragmentTransaction;
 public class Navigator {
 
     private static Navigator mInstance;
+    private boolean isAnimationEnabled;
+    private boolean isAnimationReversed;
     private FragmentManager mFragmentManager;
     @IdRes
     private int mDefaultContainer;
@@ -41,71 +47,54 @@ public class Navigator {
     }
 
     public void initFragment(@NonNull Fragment rootFragment) {
-        setRootFragment(rootFragment, false, false);
+        setRootFragment(rootFragment);
     }
 
-    public void initFragment(@NonNull Fragment rootFragment, boolean isAnimated, boolean isSlided) {
-        setRootFragment(rootFragment, isAnimated, isSlided);
+    public void initFragment(@NonNull Fragment rootFragment, boolean isAnimated) {
+        isAnimationEnabled = isAnimated;
+        setRootFragment(rootFragment);
     }
 
     public void nextFragment(@NonNull Fragment nextFragment) {
-        goTo(nextFragment, false);
+        goTo(nextFragment);
     }
 
-    public void nextFragment(@NonNull Fragment nextFragment, boolean isSlided) {
-        goTo(nextFragment, isSlided);
+    public void nextFragment(@NonNull Fragment nextFragment, boolean isAnimated) {
+        isAnimationEnabled = isAnimated;
+        goTo(nextFragment);
     }
 
-    private void setRootFragment(@NonNull Fragment rootFragment, boolean isAnimated, boolean isSlided) {
-        if (getSize() > 0) {
-            this.clearHistory();
-        }
-        if (!isAnimated) this.replaceFragmentWithOutAnimation(rootFragment);
-        else this.replaceFragmentWithAnimation(rootFragment, isSlided);
+    private void setRootFragment(@NonNull Fragment rootFragment) {
+        if (getSize() > 0) this.clearHistory();
+        this.replaceFragment(rootFragment);
     }
 
-    public Fragment getActiveFragment() {
-        if (mFragmentManager.getBackStackEntryCount() == 0) {
-            return null;
-        }
+    private Fragment getActiveFragment() {
+        if (mFragmentManager.getBackStackEntryCount() == 0) return null;
         String tag = mFragmentManager
                 .getBackStackEntryAt(mFragmentManager.getBackStackEntryCount() - 1).getName();
         return mFragmentManager.findFragmentByTag(tag);
     }
 
-    private void goTo(final Fragment fragment, boolean isLeftIn) {
+    private void goTo(final Fragment fragment) {
+        isAnimationReversed = false;
         mFragmentManager.beginTransaction()
                 .addToBackStack(getName(fragment))
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-//                .setCustomAnimations(
-//                        !isLeftIn ? R.anim.anim_slide_in_left : R.anim.anim_slide_in_right,
-//                        !isLeftIn ? R.anim.anim_slide_out_left : R.anim.anim_slide_out_right)
                 .replace(mDefaultContainer, fragment, getName(fragment))
                 .commit();
         mFragmentManager.executePendingTransactions();
     }
 
-
-    private void replaceFragmentWithOutAnimation(@NonNull Fragment fragment) {
+    private void replaceFragment(@NonNull Fragment fragment) {
+        isAnimationReversed = false;
         mFragmentManager.beginTransaction()
                 .add(mDefaultContainer, fragment, getName(fragment))
                 .commit();
         mFragmentManager.executePendingTransactions();
     }
 
-    private void replaceFragmentWithAnimation(final Fragment fragment, boolean isSlided) {
-        mFragmentManager.beginTransaction()
-//                .setCustomAnimations(
-//                        !isSlided ? R.anim.anim_slide_in_left : R.anim.anim_slide_in_right,
-//                        !isSlided ? R.anim.anim_slide_out_left : R.anim.anim_slide_out_right)
-                .add(mDefaultContainer, fragment, getName(fragment))
-                .commitNow();
-        mFragmentManager.executePendingTransactions();
-    }
-
     public void removeFragment(final Fragment fragment) {
         mFragmentManager.beginTransaction()
-                //.setCustomAnimations(R.anim.anim_slide_in_right , R.anim.anim_slide_out_right)
                 .remove(fragment)
                 .commit();
         mFragmentManager.popBackStack();
@@ -126,10 +115,12 @@ public class Navigator {
     }
 
     public void goOneBack() {
+        isAnimationReversed = true;
         mFragmentManager.popBackStackImmediate();
     }
 
     public void goBack() {
+        isAnimationReversed = true;
         mFragmentManager.popBackStack();
     }
 
@@ -137,4 +128,10 @@ public class Navigator {
         return getSize() == 0;
     }
 
+    public Animation getFragmentAnimation(@NonNull Context context, boolean enter) {
+        if (!isAnimationEnabled) return null;
+        return AnimationUtils.loadAnimation(context, !isAnimationReversed
+                ? (enter ? R.anim.slide_left_in : R.anim.slide_left_out)
+                : (enter ? R.anim.slide_right_in : R.anim.slide_right_out));
+    }
 }

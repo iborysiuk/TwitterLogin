@@ -13,7 +13,7 @@ import static com.twitterlogin.android.annotations.ToolbarConfig.Theme.SECONDARY
  * Created by Yuriy Borysiuk on 8/24/2016.
  */
 @FragmentView(layout = R.layout.fragment_register)
-@ToolbarConfig(title = R.string.title_register, backArrow = true, theme = SECONDARY)
+@ToolbarConfig(title = R.string.title_register, hasArrow = true, theme = SECONDARY)
 public class RegisterFragment extends BaseFragment {
 
     public RegisterFragment() {
