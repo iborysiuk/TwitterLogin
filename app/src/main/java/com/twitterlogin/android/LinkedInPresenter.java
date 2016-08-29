@@ -1,9 +1,8 @@
 package com.twitterlogin.android;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
-
-import com.twitterlogin.android.annotations.WebSetting;
 
 import static com.twitterlogin.android.WebDialog.WebDialogCallback;
 
@@ -14,16 +13,26 @@ import static com.twitterlogin.android.WebDialog.WebDialogCallback;
 public final class LinkedInPresenter {
 
     private static final String TAG = "LinkedInPresenter";
+    public static final String SOCIAL_LINKEDIN_URL = "https://api.linkedin.com/v1/";
+    private static final String SOCIAL_LINKED_IN_API_KEY = "77u9o77qvukf8f";
+    public static final String SOCIAL_LINKED_IN_SECRET_KEY = "7LBy61zkf46S2WpY";
+    private static final String SOCIAL_LINKED_IN_STATE = "FGHKLAS4846dskjffd124";
+    private static final String SOCIAL_LINKED_IN_AUTH_URL = "https://www.linkedin.com/oauth/v2/authorization?";
+    public static final String SOCIAL_LINKED_IN_ACCESS_TOKEN_URL = "https://www.linkedin.com/uas/oauth2/accessToken";
+    private static final String SOCIAL_LINKED_IN_CALLBACK_URL = "http://www.ap1.io";
+    private static final String authUrl = SOCIAL_LINKED_IN_AUTH_URL + "response_type=code"
+            + "&client_id=" + SOCIAL_LINKED_IN_API_KEY
+            + "&state=" + SOCIAL_LINKED_IN_STATE
+            + "&redirect_uri=" + SOCIAL_LINKED_IN_CALLBACK_URL;
 
-    @WebSetting(url = "", urlCallback = "")
-    private WebDialog mWebDialog;
     private Context mContext;
 
-    public void authorization() {
-        mWebDialog = new WebDialog(mContext, new WebDialogCallback() {
+    public void authorization(@NonNull Context context) {
+        WebDialog webDialog = new WebDialog(context, new WebDialogCallback() {
+
             @Override
-            public void onSuccess() {
-                Log.d(TAG, "Success");
+            public void onSuccess(String authCode) {
+                Log.d(TAG, "Success: " + authCode);
             }
 
             @Override
@@ -31,22 +40,7 @@ public final class LinkedInPresenter {
                 Log.e(TAG, "Error: " + error);
             }
         });
-        mWebDialog.show();
+        webDialog.setWebUrl(authUrl, SOCIAL_LINKED_IN_CALLBACK_URL);
+        webDialog.show();
     }
-
-//    private void appAuthorization() {
-//        LISessionManager.getInstance(mContext).init((Activity) mContext, Scope.build(Scope.R_BASICPROFILE),
-//                new AuthListener() {
-//                    @Override
-//                    public void onAuthSuccess() {
-//                   //     getUserProfile();
-//                    }
-//
-//                    @Override
-//                    public void onAuthError(LIAuthError error) {
-//                  //      LOGE(this, error.toString(), null);
-//                    }
-//                }, true);
-//    }
-
 }

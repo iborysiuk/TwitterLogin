@@ -2,11 +2,11 @@ package com.twitterlogin.android.ui.fragments;
 
 import android.os.Bundle;
 
-import com.twitterlogin.android.annotations.FragmentView;
+import com.twitterlogin.android.LinkedInPresenter;
 import com.twitterlogin.android.R;
+import com.twitterlogin.android.annotations.FragmentView;
 import com.twitterlogin.android.annotations.ToolbarConfig;
 import com.twitterlogin.android.ui.base.BaseFragment;
-import com.twitterlogin.android.util.Navigator;
 
 import butterknife.OnClick;
 
@@ -30,7 +30,10 @@ public class LoginFragment extends BaseFragment {
 
     @OnClick(R.id.register_btn)
     public void actionRegister() {
-        Navigator.get().nextFragment(RegisterFragment.newInstance(), true);
+        LinkedInPresenter presenter = new LinkedInPresenter();
+        presenter.authorization(getContext());
+
+        //Navigator.get().nextFragment(RegisterFragment.newInstance(), true);
     }
 
 }

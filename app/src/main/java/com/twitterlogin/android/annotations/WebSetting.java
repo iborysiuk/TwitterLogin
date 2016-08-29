@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Created by Yuriy Borysiuk on 8/26/2016.
  */
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface WebSetting {
 
